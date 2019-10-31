@@ -1,0 +1,173 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Savings
+{% endblock %}
+
+{% block main %}
+
+    <!-- Define a card to contain the information -->
+    <div class="card text-center shadow-sm rounded-0">
+        <h3 class="card-header rounded-0">Savings Submit Form</h3>
+        <div class="card-body">
+
+            <form action="/savings" method="post" class="form-inline align-items-center needs-validation" novalidate>
+                <div class="col-auto">
+                    <label for="selectYear">Year</label>
+                    <select autofocus name="year" class="form-control mb-2 mr-sm-2" id="selectYear" required>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Year is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="selectMonth">Month</label>
+                    <select name="month" class="form-control mb-2 mr-sm-2" id="selectMonth" required>
+                        <option value="Jan">Jan</option>
+                        <option value="Feb">Feb</option>
+                        <option value="Mar">Mar</option>
+                        <option value="Apr">Apr</option>
+                        <option value="Mai">Mai</option>
+                        <option value="Jun">Jun</option>
+                        <option value="Jul">Jul</option>
+                        <option value="Aug">Aug</option>
+                        <option value="Sep">Sep</option>
+                        <option value="Oct">Oct</option>
+                        <option value="Nov">Nov</option>
+                        <option value="Dec">Dec</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Month is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="selectType">Type</label>
+                    <select autofocus name="type" class="form-control mb-2 mr-sm-2" id="selectType" required>
+                        <option value="PPR">PPR</option>
+                        <option value="PPE">PPE</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Savings Type is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="inputSaving">Saving Deposit</label>
+                    <input id="inputSaving" class="form-control mb-2 mr-sm-2" name="saving" placeholder="0" type="text" size="8" required>
+                    <div class="invalid-feedback">
+                        Saving Deposit is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="inputInterest">Interest</label>
+                    <input id="inputInterest" class="form-control mb-2 mr-sm-2" name="interest" placeholder="0" type="text" size="8" required>
+                    <div class="invalid-feedback">
+                        Interest is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="inputWithdraw">Saving Withdraw</label>
+                    <input id="inputWithdraw" class="form-control mb-2 mr-sm-2" name="withdraw" placeholder="0" type="text" size="8" required>
+                    <div class="invalid-feedback">
+                        Withdraw is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="formSubmit">Go</label>
+                    <button name="savingSubmit" id="formSubmit" class="btn mb-2 mr-sm-2" type="submit">Submit</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <br>
+
+    <!-- Year savings details -->
+    <!-- Define a card to contain the information -->
+    <div class="card text-center shadow-sm rounded-0">
+        <h3 class="card-header rounded-0">Savings Status</h3>
+        <div class="card-body">
+
+            <!-- Define a container for two columns -->
+            <div class="container">
+                <div class="row">
+
+                    <!-- Left column displays a table -->
+                    <div class="col-md">
+                      <table class="table table-striped table-sm">
+                        <thead>
+                          <tr>
+                            <th>Type</th>
+                            <th>Saving</th>
+                            <th>Interest</th>
+                            <th>TOTAL</th>
+                          </tr>
+                        </thead>
+                        <tfoot>
+                          <tr>
+                            <td colspan="3">GRAND TOTAL</td>
+                            <td>{{ savings_total | euro }}</td>
+                          </tr>
+                        </tfoot>
+                        <tbody>
+                          {% for item in rows %}
+                          <tr>
+                            <td>{{ item.type }}</td>
+                            <td>{{ item.invest | euro }}</td>
+                            <td>{{ item.interest }}</td>
+                            <td>{{ item.total | euro }}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <!-- Right column displays a chart (Chart.js 'doughnut' chart)-->
+                    <div class="col-md">
+                      <canvas id="savingsChart" role="img" aria-label="Chart displaying month expenses details"></canvas>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Chart.js scripts -->
+    <script>
+      // Builds a 'doughnut'chart using Chart.js on savings type
+      // Doughnut chart data
+      var savingsChartData = {
+          labels: [{% for i in label %}"{{ i }}",{% endfor %}],
+        datasets: [{
+            label: 'Savings',
+            data: [{% for i in data %}{{ i | decimal }},{% endfor %}]
+        }]
+      };
+
+      // Doughnut chart options
+      var chartOptions = {
+        legend: {
+          position: 'bottom'
+        },
+        plugins: {
+          colorschemes: {
+            scheme: 'tableau.Tableau20'
+          }
+        }
+      };
+
+      // Get both charts canvas
+      var ctx = document.getElementById('savingsChart');
+
+      // Create the chart using its chart canvas
+      var categoryChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: savingsChartData,
+        options: chartOptions
+      });
+    </script>
+
+{% endblock %}

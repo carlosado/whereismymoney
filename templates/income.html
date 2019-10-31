@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Income
+{% endblock %}
+
+{% block main %}
+
+    <!-- Define a card to contain the information -->
+    <div class="card text-center shadow-sm rounded-0">
+        <h3 class="card-header rounded-0">Income Submit Form</h3>
+        <div class="card-body">
+
+            <form action="/income" method="post" class="form-inline align-items-center needs-validation" novalidate>
+                <div class="col-auto">
+                    <label for="selectYear">Year</label>
+                    <select autofocus name="year" class="form-control mb-2 mr-sm-2" id="selectYear" required>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Year is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="selectMonth">Month</label>
+                    <select name="month" class="form-control mb-2 mr-sm-2" id="selectMonth" required>
+                        <option value="Jan">Jan</option>
+                        <option value="Feb">Feb</option>
+                        <option value="Mar">Mar</option>
+                        <option value="Apr">Apr</option>
+                        <option value="Mai">Mai</option>
+                        <option value="Jun">Jun</option>
+                        <option value="Jul">Jul</option>
+                        <option value="Aug">Aug</option>
+                        <option value="Sep">Sep</option>
+                        <option value="Oct">Oct</option>
+                        <option value="Nov">Nov</option>
+                        <option value="Dec">Dec</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Month is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="inputSalary">Salary</label>
+                    <input id="inputSalary" class="form-control mb-2 mr-sm-2" name="salary" placeholder="0" type="text" size="8" required>
+                    <div class="invalid-feedback">
+                        Salary is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="inputSubsidy">Subsidy</label>
+                    <input id="inputSubsidy" class="form-control mb-2 mr-sm-2" name="subsidy" placeholder="0" type="text" size="8" required>
+                    <div class="invalid-feedback">
+                        Subsidy is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="inputExtra">Extra</label>
+                    <input id="inputExtra" class="form-control mb-2 mr-sm-2" name="extra" placeholder="0" type="text" size="8" required>
+                    <div class="invalid-feedback">
+                        Extras is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="formSubmit">Go</label>
+                    <button id="formSubmit" class="btn mb-2 mr-sm-2" type="submit">Submit</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+{% endblock %}
+

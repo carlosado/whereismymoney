@@ -1,0 +1,357 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Budget
+{% endblock %}
+
+{% block main %}
+
+    <!-- Define a card to contain the information -->
+    <div class="card text-center shadow-sm rounded-0">
+        <h3 class="card-header rounded-0">Budget Submit Form</h3>
+        <div class="card-body">
+
+            <form action="/budget" method="post" class="form-inline align-items-center needs-validation" novalidate>
+                <div class="col-auto">
+                    <label for="inputYear">Year</label>
+                    <select autofocus name="year" class="form-control mb-2 mr-sm-2" id="inputYear" placeholder="2019" required>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Year is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="selectMonth">Month</label>
+                    <select name="month" class="custom-select mb-2 mr-sm-2" id="selectMonth" required>
+                        <option value="Jan">Jan</option>
+                        <option value="Feb">Feb</option>
+                        <option value="Mar">Mar</option>
+                        <option value="Apr">Apr</option>
+                        <option value="Mai">Mai</option>
+                        <option value="Jun">Jun</option>
+                        <option value="Jul">Jul</option>
+                        <option value="Aug">Aug</option>
+                        <option value="Sep">Sep</option>
+                        <option value="Oct">Oct</option>
+                        <option value="Nov">Nov</option>
+                        <option value="Dec">Dec</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Month is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="selectExpCatg">Expense Category</label>
+                    <select name="category" class="custom-select mb-2 mr-sm-2" id="selectExpCatg" required>
+                        <option disabled selected value>Choose...</option>
+                        <option value="Leisure">Leisure</option>
+                        <option value="Education">Education</option>
+                        <option value="Food">Food</option>
+                        <option value="Health">Health</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Taxes">Taxes</option>
+                        <option value="Utilities">Utilities</option>
+                        <option value="Miscellaneous">Miscellaneous</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Expense category is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="selectExpType">Expense Type</label>
+                    <select name="type" class="custom-select selectpicker mb-2 mr-sm-2" data-size="2" id="selectExpType">
+                        <option disabled selected value>Choose...</option>
+                        <optgroup label="Leisure">
+                            <option value="Cinema">Cinema</option>
+                            <option value="Concerts">Concerts</option>
+                            <option value="Vacations">Vacations</option>
+                        </optgroup>
+                        <optgroup label="Education">
+                            <option value="Books">Books</option>
+                            <option value="Supplies">Supplies</option>
+                            <option value="Tuition">Tuition</option>
+                        </optgroup>
+                        <optgroup label="Food">
+                            <option value="Groceries">Groceries</option>
+                            <option value="Restaurants">Restaurants</option>
+                            <option value="Coffeshops">Coffe Shops</option>
+                            <option value="Pet Food">Pet Food</option>
+                        </optgroup>
+                        <optgroup label="Health">
+                            <option value="Pharmacy">Pharmacy</option>
+                            <option value="Medical">Medical</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Vet">Vet</option>
+                        </optgroup>
+                        <optgroup label="Shopping">
+                            <option value="Clothing">Clothing</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Appliances">Appliances</option>
+                            <option value="Gifts">Gifts</option>
+                        </optgroup>
+                        <optgroup label="Transport">
+                            <option value="Fuel">Fuel</option>
+                            <option value="Tolls">Tolls</option>
+                            <option value="Service">Service</option>
+                            <option value="Insurance">Insurance</option>
+                        </optgroup>
+                        <optgroup label="Taxes">
+                            <option value="IMI">IMI</option>
+                            <option value="IUC">IUC</option>
+                        </optgroup>
+                        <optgroup label="Utilities">
+                            <option value="Electricity">Electricity</option>
+                            <option value="Gas">Gas</option>
+                            <option value="Television">Cable TV</option>
+                            <option value="Mobile">Phones</option>
+                            <option value="Security">Security</option>
+                        </optgroup>
+                        <optgroup label="Miscellaneous">
+                            <option value="Farm">Farm</option>
+                            <option value="Transfers">Transfers</option>
+                            <option value="Bets">Bets</option>
+                            <option value="Other">Other</option>
+                        </optgroup>
+                    </select>
+                    <div class="invalid-feedback">
+                        Expense type is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="inputAmount">Amount</label>
+                    <input name="amount" type="text" size="8" class="form-control mb-2 mr-sm-2" id="inputAmount" placeholder="euro" required>
+                    <div class="invalid-feedback">
+                        Amount is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label class="form-check-label" for="formCheck">Done!</label>
+                    <input name="last_expense" type="checkbox" class="form-check mb-2 mr-sm-2" id="formCheck">
+                </div>
+                <div class="col-auto">
+                    <label for="formSubmit">Go</label>
+                    <button type="submit" class="btn mb-2 mr-sm-2" id="formSubmit">Submit</button>
+                    </label>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <br>
+
+    <table class="table table-borderless">
+        <thead><h4 class="text-center">Set Income</h4></thead>
+        <tr>
+            <td>Salary</td>
+            <td><input type="text" class="income"></td>
+            <td>Balance (Income - Expenses)</td>
+            <td><input type="text" id="balance" disabled></td>
+        </tr>
+    </table>
+
+    <table class="table table-borderless table-sm">
+        <h4 class="text-center">Budgeted Expenses</h4>
+        <thead>
+            <tr>
+                <th>Expense Category</th>
+                <th>Expense Type</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Leisure</td>
+                <td>Cinema</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Concerts</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Vacations</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td>Education</td>
+                <td>Books</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Supplies</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Tuition</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+
+            <tr>
+                <td value="Food">Food</td>
+                <td value="Groceries">Groceries</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Restaurants</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Coffe Shops</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Pet Food</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+
+            <tr>
+                <td>Health</td>
+                <td>Pharmacy</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Medical</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Sports</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Vet</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td>Shopping</td>
+                <td>Clothing</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Electronics</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Appliances</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Gifts</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td>Transport</td>
+                <td>Fuel</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Tolls</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Service</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Insurance</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td>Taxes</td>
+                <td>IMI</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>IUC</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td>Utilities</td>
+                <td>Electricity</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Gas</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Cable TV</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Phones</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Security</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td>Miscellaneous</td>
+                <td>Farm</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Transfers</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Bets</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Other</td>
+                <td><input type='text' class='expense'></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <script>
+    // use jQuery 'keyup' to trigger the computation as the user types
+      $('.expense').keyup(function () {
+
+        // initialize the sum to the declared income value
+        var sum = $(".income").val();
+
+        // Use jQuery each() to loop through all the textbox with 'expense' class
+        // and compute the sum for each loop (subtract to income)
+        $('.expense').each(function() {
+          sum -= Number($(this).val());
+        });
+
+        // set the computed value to 'balance' textbox
+        $('#balance').val(sum);
+
+      });
+    </script>
+
+{% endblock %}
+

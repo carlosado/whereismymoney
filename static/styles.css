@@ -1,0 +1,98 @@
+/* size and colors for brand */
+nav .navbar-brand {
+    font-size: xx-large;
+    color: #978102;
+}
+nav .navbar-brand b {
+    color: #342b02;
+}
+nav .navbar-brand b:hover {
+    color: #978102;
+}
+
+/* colors for navbar links */
+nav .navbar-nav a {
+    color: #978102;
+}
+nav .navbar-nav a:hover {
+    color: #342b02;
+}
+
+
+main .form-control {
+    /* center form controls */
+    display: inline-block;
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+main {
+    /* scroll horizontally as needed */
+    overflow-x: auto;
+    /* center contents */
+    text-align: center;
+}
+
+main table {
+    /* align table contents */
+    text-align: left;
+}
+
+main tfoot {
+    font-weight: bold;
+}
+
+main img {
+    /* constrain images on small screens */
+    max-width: 100%;
+}
+
+.card {
+  background: #fff9dc;
+}
+.card-header {
+  background: #b69b02;
+  color: #fff9dc;
+}
+
+.modal-header {
+  background: #b69b02;
+  color: #fff9dc;
+}
+
+.btn {
+  background: #b69b02;
+  color: white;
+}
+.btn:hover {
+  background: #655601;
+}
+.btn-log {
+  width: 220px;
+}
+
+/* register and login forms behaviour */
+.register-form {
+  display: none;
+}
+.message a {
+  color: #b69b02;
+  text-decoration: none;
+}
+
+/* body section background color */
+body {
+  background: #feec86; /* fallback for old browsers */
+  background: -webkit-linear-gradient(right, #feec86, #feef9a);
+  background: -moz-linear-gradient(right, #feec86, #feef9a);
+  background: -o-linear-gradient(right, #feec86, #feef9a);
+  background: linear-gradient(to left, #feec86, #feef9a);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Readme.md screenshots styling*/
+img[src*="#thumbnail"] {
+   width:300px;
+   height:200px;
+}

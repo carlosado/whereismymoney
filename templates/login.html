@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+
+    <!-- Insert login and register forms in a card -->
+    <div class="card text-center shadow-sm rounded-0 mx-auto" style="width: 22rem;" >
+
+        <!-- Register form -->
+        <form action="/register" method="post" class="register-form needs-validation" novalidate>
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control bg-light border-light rounded-0 mx-5 mb-1 mt-5 py-4" name="username" placeholder="name" type="text" required>
+                <div class="invalid-feedback">
+                    Name is required
+                </div>
+            </div>
+            <div class="form-group">
+                <input class="form-control bg-light rounded-0 border-light py-4" name="password" placeholder="password" type="password" required>
+                <div class="invalid-feedback">
+                    Password is required
+                </div>
+            </div>
+            <button class="btn btn-log rounded-0 py-3" type="submit">CREATE</button>
+            <p class="message font-weight-light small mt-3 mb-5">Already registered? <a href="#">Sign in</a></p>
+        </form>
+
+        <!-- Log in form -->
+        <form action="/login" method="post" class="needs-validation" novalidate>
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control bg-light border-light rounded-0 mx-5 mb-1 mt-5 py-4" name="username" placeholder="username" type="text" required>
+                <div class="invalid-feedback">
+                    Username is required
+                </div>
+            </div>
+            <div class="form-group">
+                <input class="form-control bg-light rounded-0 border-light py-4" name="password" placeholder="password" type="password" required>
+                <div class="invalid-feedback">
+                    Password is required
+                </div>
+            </div>
+            <button class="btn btn-log rounded-0 py-3" type="submit">LOGIN</button>
+            <p class="message font-weight-light small mt-3 mb-5">Not registered? <a href="#">Create an account</a></p>
+        </form>
+    </div>
+
+    <!-- toggle login and register forms -->
+    <script>
+        $('.message a').click(function(){
+            $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+        });
+    </script>
+
+{% endblock %}
+

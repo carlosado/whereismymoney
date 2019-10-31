@@ -1,0 +1,309 @@
+{% extends "layout.html" %}
+
+{% block title %}
+   Expense Detail
+{% endblock %}
+
+{% block main %}
+
+   <!-- Month expense details -->
+   <!-- Define a card to contain the information relative to expenses type -->
+   <div class="card text-center shadow-sm rounded-0">
+      <h3 class="card-header rounded-0">{{ selected_month }}-{{ selected_year }} Expenses by Type</h3>
+      <div class="card-body">
+
+         <!-- Define a container for two columns -->
+         <div class="container">
+            <div class="row">
+
+               <!-- Left column displays a table -->
+               <div class="col-md">
+                  <table class="table table-striped table-sm">
+                     <thead>
+                        <tr>
+                           <th>Expense</th>
+                           <th>%</th>
+                           <th>Partial</th>
+                        </tr>
+                     </thead>
+                     <tfoot>
+                        <tr>
+                           <td colspan="2">TOTAL</td>
+                           <td>{{ expenses_total | euro }}</td>
+                        </tr>
+                     </tfoot>
+                     <tbody>
+                        {% for expense in exp_type %}
+                        <tr>
+                           <td>{{ expense.type }}</td>
+                           <td>{{ ((expense.partial * 100) / expenses_total) | percent }}</td>
+                           <td>{{ expense.partial | euro }}</td>
+                        </tr>
+                        {% endfor %}
+                     </tbody>
+                  </table>
+               </div>
+
+               <!-- Right column displays a chart (Chart.js 'doughnut' chart)-->
+               <div class="col-md">
+                  <canvas id="typeChart" height="400" role="img" aria-label="Chart displaying month expenses details"></canvas>
+               </div>
+
+            </div>
+         </div>
+
+      </div>
+   </div>
+
+   <br>
+
+   <!-- Again another card this time relative to expenses category -->
+   <div class="card text-center shadow-sm rounded-0">
+      <h3 class="card-header rounded-0">{{ selected_month }}-{{ selected_year }} Expenses by Category</h3>
+      <div class="card-body">
+         <div class="container">
+            <div class="row">
+               <div class="col-md">
+                  <table class="table table-striped table-sm">
+                     <thead>
+                        <tr>
+                           <th>Expense</th>
+                           <th>%</th>
+                           <th>Partial</th>
+                        </tr>
+                     </thead>
+                     <tfoot>
+                        <tr>
+                           <td colspan="2">TOTAL</td>
+                           <td>{{ expenses_total | euro }}</td>
+                        </tr>
+                     </tfoot>
+                     <tbody>
+                        {% for expense in exp_cat %}
+                        <tr>
+                           <td>{{ expense.category }}</td>
+                           <td>{{ ((expense.partial * 100) / expenses_total) | percent }}</td>
+                           <td>{{ expense.partial | euro }}</td>
+                        </tr>
+                        {% endfor %}
+                     </tbody>
+                  </table>
+               </div>
+               <div class="col-md">
+                  <canvas id="categoryChart" height="300"></canvas>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <!-- Modal that displays a chart when user clicks on an item-->
+   <div class="modal fade bd-example-modal-lg rounded-0" id="myModal" role="dialog">
+      <div class="modal-dialog modal-lg">
+
+         <!-- Modal content-->
+         <div class="modal-content">
+            <div class="modal-header rounded-0">
+               <h4 class="modal-title">Year Expense Details</h4>
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+               <canvas id="lineChart" role="img" aria-label="Line chart displaying expense evolution over the year"></canvas>
+            </div>
+         </div>
+
+      </div>
+   </div>
+
+   <!-- Chart.js scripts -->
+   <script>
+      // Builds a 'doughnut'chart using Chart.js on expenses 'type' and 'category'
+      // Define the 'category' chart data
+      var categoryChartData = {
+         labels: [{% for i in exp_cat %}"{{ i.category }}",{% endfor %}],
+         datasets: [{
+            data: [{% for i in exp_cat %}{{ i.partial }},{% endfor %}],
+         }]
+      };
+
+      // Define the 'type' chart data
+      var typeChartData = {
+         labels: [{% for i in exp_type %}"{{ i.type }}",{% endfor %}],
+         datasets: [{
+            data: [{% for i in exp_type %}{{ i.partial }},{% endfor %}],
+         }]
+      };
+
+      // Doughnut chart options (apply to both charts)
+      var chartOptions = {
+         legend: {
+            position: 'bottom'
+         },
+         plugins: {
+            colorschemes: {
+               scheme: 'tableau.Tableau20'
+            }
+         },
+         title: {
+            display: true,
+            text: 'click on item for details'
+         }
+      };
+
+      // Get both charts canvas
+      var ctx1 = document.getElementById('categoryChart');
+      var ctx2 = document.getElementById('typeChart');
+
+      // Create the 'expenses category' chart using its chart canvas
+      var categoryChart = new Chart(ctx1, {
+         type: 'doughnut',
+         data: categoryChartData,
+         options: chartOptions
+      });
+
+      // Create the 'expenses type' chart using its chart canvas
+      var typeChart = new Chart(ctx2, {
+         type: 'doughnut',
+         data: typeChartData,
+         options: chartOptions
+      });
+
+      /* Modal chart - Returns a chart.js 'line' chart on a bootstrap modal
+         when clicking on a rendered chart.js 'doughnut' chart item.*/
+      // Extract 'category label' when clicking on the 'doughnut' chart item
+      ctx1.onclick = function(evt) {
+         var category = categoryChart.getElementAtEvent(evt)[0];
+         if (category) {
+            var label = categoryChart.data.labels[category._index];
+         }
+
+         /* jquery a sqlite3 database with this 'label' and get it's corresponding
+            labels and data to populate a new chart*/
+         $.get('/modal?category=' + label, function(lineChartData){
+            var labels=[], data=[], i=0;
+            for (i=0; i<lineChartData.length; i++){
+                  labels.push(lineChartData[i].month);
+            }
+            for (i=0; i<lineChartData.length; i++){
+                  data.push(lineChartData[i].partial);
+            }
+
+            // Find the average of data[] array and build a avg[] dataset
+            var avg = [], avg1=0;
+            for (i=0; i<data.length; i++){
+               avg.push((data.reduce((a, b)=>(a+b))/data.length).toFixed(2));
+            }
+            avg1 = (data.reduce((a, b)=>(a+b))/data.length).toFixed(2);
+
+            // Create a modal chart with the colected labels and data
+            var ctx3 = document.getElementById('lineChart');
+            var lineChart = new Chart(ctx3, {
+               type: 'line',
+               data: {
+                  labels: labels,
+                  datasets: [{
+                     data: data,
+                     label: label,
+                     fill: false,
+                  },{
+                     data: avg,
+                     label: "Average",
+                     fill: false,
+                  }]
+               },
+               options: {
+                  scales: {
+                     yAxes: [{
+                        ticks: {
+                           beginAtZero: true
+                        }
+                     }]
+                  },
+                  plugins: {
+                     annotation: {
+                        annotations:[{
+                           drawtime: 'afterDatasetsDraw',
+                           type: 'line',
+                           mode: 'horizontal',
+                           scaleID: 'y-axis-0',
+                           value: avg1,
+                           bordercolor: 'red',
+                           borderwidth: 2,
+                           label: {
+                              content: 'Average',
+                              enabled: true,
+                           }
+                        }]
+                     }
+                  }
+               }
+            });
+
+            // show the created chart in a modal
+            $('#myModal').modal('show');
+            console.log(label, data, avg, avg1, lineChartData);
+         });
+      };
+
+      /* Returns a chart.js 'line' chart on a bootstrap modal when clicking on a
+         renderered chart.js 'doughnut' chart item.*/
+      // Extract 'type label' when clicking on the 'doughnut' chart item
+      ctx2.onclick = function(evt) {
+         var type = typeChart.getElementAtEvent(evt)[0];
+         if (type) {
+            var label = typeChart.data.labels[type._index];
+         }
+
+         /* jquery a sqlite3 database with this 'label' and get it's labels and
+            data to populate a new chart*/
+         $.get('/modal?type=' + label, function(lineChartData){
+            var labels=[], data=[], i=0;
+            for (i=0; i<lineChartData.length; i++){
+               labels.push(lineChartData[i].month);
+            }
+            for (i=0; i<lineChartData.length; i++){
+               data.push(lineChartData[i].partial);
+            }
+
+            // Find the average of data[] array and build a avrg[] dataset
+            var avrg=[];
+            for (i=0; i<data.length; i++){
+               avrg.push((data.reduce((a, b)=>(a+b))/data.length).toFixed(2));
+            }
+
+            // Create a modal chart with the colected labels and data
+            var ctx3 = document.getElementById('lineChart');
+            var lineChart = new Chart(ctx3, {
+               type: 'line',
+               data: {
+                  labels: labels,
+                  datasets: [{
+                     data: data,
+                     label: label,
+                     fill: false,
+                  },{
+                     data: avrg,
+                     label: "Average",
+                     fill: false,
+                  }]
+               },
+               options: {
+                  scales: {
+                     yAxes: [{
+                        ticks: {
+                           beginAtZero: true
+                        }
+                     }]
+                  },
+               }
+            });
+
+            // Show the created chart in a modal
+            $('#myModal').modal('show');
+            console.log(label, data, avrg, lineChartData);
+         });
+      };
+   </script>
+
+{% endblock %}
+

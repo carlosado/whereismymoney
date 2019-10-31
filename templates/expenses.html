@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Expenses
+{% endblock %}
+
+{% block main %}
+
+    <!-- Define a card to contain the information -->
+    <div class="card text-center shadow-sm rounded-0">
+        <h3 class="card-header rounded-0">Expenses Submit Form</h3>
+        <div class="card-body">
+
+            <form action="/expenses" method="post" class="form-inline align-items-center needs-validation" novalidate>
+                <div class="col-auto">
+                    <label for="inputYear">Year</label>
+                    <select autofocus name="year" class="form-control mb-2 mr-sm-2" id="inputYear" placeholder="2019" required>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Year is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="selectMonth">Month</label>
+                    <select name="month" class="custom-select mb-2 mr-sm-2" id="selectMonth" required>
+                        <option value="Jan">Jan</option>
+                        <option value="Feb">Feb</option>
+                        <option value="Mar">Mar</option>
+                        <option value="Apr">Apr</option>
+                        <option value="Mai">Mai</option>
+                        <option value="Jun">Jun</option>
+                        <option value="Jul">Jul</option>
+                        <option value="Aug">Aug</option>
+                        <option value="Sep">Sep</option>
+                        <option value="Oct">Oct</option>
+                        <option value="Nov">Nov</option>
+                        <option value="Dec">Dec</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Month is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="selectExpCatg">Expense Category</label>
+                    <select name="category" class="custom-select mb-2 mr-sm-2" id="selectExpCatg" required>
+                        <option disabled selected value>Choose...</option>
+                        <option value="Leisure">Leisure</option>
+                        <option value="Education">Education</option>
+                        <option value="Food">Food</option>
+                        <option value="Health">Health</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Taxes">Taxes</option>
+                        <option value="Utilities">Utilities</option>
+                        <option value="Miscellaneous">Miscellaneous</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Expense category is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="selectExpType">Expense Type</label>
+                    <select name="type" class="custom-select selectpicker mb-2 mr-sm-2" data-size="2" id="selectExpType">
+                        <option disabled selected value>Choose...</option>
+                        <optgroup label="Leisure">
+                            <option value="Cinema">Cinema</option>
+                            <option value="Concerts">Concerts</option>
+                            <option value="Vacations">Vacations</option>
+                        </optgroup>
+                        <optgroup label="Education">
+                            <option value="Books">Books</option>
+                            <option value="Supplies">Supplies</option>
+                            <option value="Tuition">Tuition</option>
+                        </optgroup>
+                        <optgroup label="Food">
+                            <option value="Groceries">Groceries</option>
+                            <option value="Restaurants">Restaurants</option>
+                            <option value="Coffeshops">Coffe Shops</option>
+                            <option value="Pet Food">Pet Food</option>
+                        </optgroup>
+                        <optgroup label="Health">
+                            <option value="Pharmacy">Pharmacy</option>
+                            <option value="Medical">Medical</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Vet">Vet</option>
+                        </optgroup>
+                        <optgroup label="Shopping">
+                            <option value="Clothing">Clothing</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Appliances">Appliances</option>
+                            <option value="Gifts">Gifts</option>
+                        </optgroup>
+                        <optgroup label="Transport">
+                            <option value="Fuel">Fuel</option>
+                            <option value="Tolls">Tolls</option>
+                            <option value="Service">Service</option>
+                            <option value="Insurance">Insurance</option>
+                        </optgroup>
+                        <optgroup label="Taxes">
+                            <option value="IMI">IMI</option>
+                            <option value="IUC">IUC</option>
+                        </optgroup>
+                        <optgroup label="Utilities">
+                            <option value="Electricity">Electricity</option>
+                            <option value="Gas">Gas</option>
+                            <option value="Television">Cable TV</option>
+                            <option value="Mobile">Phones</option>
+                            <option value="Security">Security</option>
+                        </optgroup>
+                        <optgroup label="Miscellaneous">
+                            <option value="Farm">Farm</option>
+                            <option value="Transfers">Transfers</option>
+                            <option value="Bets">Bets</option>
+                            <option value="Other">Other</option>
+                        </optgroup>
+                    </select>
+                    <div class="invalid-feedback">
+                        Expense type is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label for="inputAmount">Amount</label>
+                    <input name="amount" type="text" size="8" class="form-control mb-2 mr-sm-2" id="inputAmount" placeholder="euro" required>
+                    <div class="invalid-feedback">
+                        Amount is required
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <label class="form-check-label" for="formCheck">Done!</label>
+                    <input name="last_expense" type="checkbox" class="form-check mb-2 mr-sm-2" id="formCheck">
+                </div>
+                <div class="col-auto">
+                    <label for="formSubmit">Go</label>
+                    <button type="submit" class="btn mb-2 mr-sm-2" id="formSubmit">Submit</button>
+                    </label>
+                </div>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

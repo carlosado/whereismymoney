@@ -1,0 +1,15 @@
+{
+  "name": "final_project",
+  "version": "1.0.0",
+  "description": "![Logo of the project](https://raw.githubusercontent.com/jehna/readme-best-practices/master/sample-logo.png)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chartjs-plugin-annotation": "^0.5.7"
+  }
+}
